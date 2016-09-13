@@ -1,0 +1,42 @@
+<domain type="kvm">
+     <name>vm201</name>
+     <memory unit="MiB">1024</memory>
+     <currentMemory unit="MiB">1024</currentMemory>
+     <vcpu>1</vcpu>
+     <os>
+          <type arch="x86_64" machine="pc">hvm</type>
+          <boot dev="hd" />
+          <boot dev="cdrom" />
+     </os>
+     <features>
+          <acpi />
+          <apic />
+          <pae />
+     </features>
+     <clock offset="localtime" />
+     <on_poweroff>destroy</on_poweroff>
+     <on_reboot>restart</on_reboot>
+     <on_crash>destroy</on_crash>
+     <devices>
+	  <emulator>/usr/libexec/qemu-kvm</emulator>
+          <disk type="file" device="disk">
+               <driver name="qemu" type="qcow2" />
+               <source file="/home/kvm/kvm_demo/demo.qcow2" />
+               <target dev="vda" bus="virtio" />
+          </disk>
+          <disk type="file" device="cdrom">
+               <source file="/home/kvm/kvm_demo/CentOS-7-x86_64-DVD-1511.iso" />
+               <target dev="hdb" bus="ide" />
+          </disk>
+          <interface type="bridge">
+               <mac address="00:26:6c:f9:4b:c4" />
+	       <source bridge="br0" />
+	       <model type="virtio" />
+	       <driver name="vhost" />
+          </interface>
+          <input type="tablet" bus="usb" />
+          <input type="mouse" bus="usb" />
+          <graphics type="vnc" port="-1" listen="0.0.0.0" keymap="en-us" />
+     </devices>
+</domain>
+
